@@ -1,0 +1,218 @@
+<div class="student-list-container">
+    <h2>Student List</h2>
+
+    <!-- Add New Student Button -->
+    <div class="form-controls">
+        <button class="add-student-btn" (click)="toggleForm()">
+            {{ showForm ? 'Cancel' : 'Add New Student' }}
+        </button>
+    </div>
+
+    <!-- Add New Student Form -->
+    <div class="form-container" *ngIf="showForm">
+        <h3>Add New Student</h3>
+        <form (ngSubmit)="onSubmit()" #studentForm="ngForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName"
+                        [(ngModel)]="newStudent.firstName"
+                        required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName"
+                        [(ngModel)]="newStudent.lastName"
+                        required class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email"
+                        [(ngModel)]="newStudent.email"
+                        required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="grade">Grade:</label>
+                    <input type="text" id="grade" name="grade"
+                        [(ngModel)]="newStudent.grade"
+                        required class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob"
+                        [(ngModel)]="newStudent.dob"
+                        required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="country">Country:</label>
+                    <input type="text" id="country" name="country"
+                        [(ngModel)]="newStudent.country"
+                        required class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender"
+                        [(ngModel)]="newStudent.gender"
+                        required class="form-control">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn"
+                    [disabled]="!isFormValid()">
+                    Add Student
+                </button>
+                <button type="button" class="cancel-btn" (click)="toggleForm()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Edit Student Form -->
+    <div class="form-container" *ngIf="showEditForm">
+        <!-- The #ngIf helps hide somthing in the mean itime until it's set to true -->>
+        <h3>Edit Student</h3>
+        <form (ngSubmit)="onEditSubmit()" #editStudentForm="ngForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editFirstName">First Name:</label>
+                    <input type="text" id="editFirstName" name="editFirstName"
+                        [(ngModel)]="editStudent.firstName"
+                        required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="editLastName">Last Name:</label>
+                    <input type="text" id="editLastName" name="editLastName"
+                        [(ngModel)]="editStudent.lastName" required
+                        class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" name="editEmail"
+                        [(ngModel)]="editStudent.email"
+                        required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="editGrade">Grade:</label>
+                    <input type="text" id="editGrade" name="editGrade"
+                        [(ngModel)]="editStudent.grade"
+                        required class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editDob">Date of Birth:</label>
+                    <input type="date" id="editDob" name="editDob"
+                        [(ngModel)]="editStudent.dob"
+                        required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="editCountry">Country:</label>
+                    <input type="text" id="editCountry" name="editCountry"
+                        [(ngModel)]="editStudent.country"
+                        required class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editGender">Gender:</label>
+                    <select id="editGender" name="editGender"
+                        [(ngModel)]="editStudent.gender"
+                        required class="form-control">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn"
+                    [disabled]="!isEditFormValid()">
+                    Update Student
+                </button>
+                <button type="button" class="cancel-btn" (click)="cancelEdit()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- <div>
+
+        <h3 class="form-editById">Edit student by ID</h3>
+
+        <div class="editByIdForm" *ngIf="true">
+            <form>
+
+                <label for="idOfStudent">Enter In Id: <br></label>
+                <input id="idOfStudent" name="idOfStudent">
+                <button type="submit" (click)></button>
+
+            </form>
+
+        </div> -->
+
+    <!--This is displaying the list -->
+    <div class="table-container">
+        <table class="student-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th>Email</th>
+                    <th>Country</th>
+                    <th>ID </th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (student of students; track student.id) {
+                <tr class="student-row">
+                    <td class="student-name">{{ student.firstName }} {{
+                        student.lastName }}</td>
+                    <td class="student-grade">{{ student.grade }}</td>
+                    <td class="student-email">{{ student.email }}</td>
+                    <td class="student-country">{{ student.country
+                        }}</td>
+                    <td class="student-id">{{student.id}}</td>
+                    <td class="student-dob">{{ student.dob }}</td>
+                    <td class="student-gender">{{ student.gender }}</td>
+                    <td class="student-actions">
+                        <button class="action-btn edit-btn"
+                            (click)="startEdit(student)">Edit</button>
+                        <button type="button"
+                            (click)="ngDeleteById(student.id)"
+                            class="action-btn delete-btn">Delete</button>
+                    </td>
+                </tr>
+                } @empty {
+                <tr class="empty-row">
+                    <td colspan="7" class="empty-state">
+                        <p>No students found.</p>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

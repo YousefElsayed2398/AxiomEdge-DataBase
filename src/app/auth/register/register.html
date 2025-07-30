@@ -1,0 +1,90 @@
+<div class="register-container">
+    <div class="register-card">
+        <h2>Register</h2>
+        <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    [(ngModel)]="username"
+                    required
+                    minlength="3"
+                    #usernameInput="ngModel"
+                    [class.error]="usernameInput.invalid && usernameInput.touched">
+                <div *ngIf="usernameInput.invalid && usernameInput.touched"
+                    class="error-text">
+                    <span *ngIf="usernameInput.errors?.['required']">Username is
+                        required</span>
+                    <span *ngIf="usernameInput.errors?.['minlength']">Username
+                        must be at least 3 characters</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    [(ngModel)]="password"
+                    required
+                    minlength="6"
+                    #passwordInput="ngModel"
+                    [class.error]="passwordInput.invalid && passwordInput.touched">
+                <div *ngIf="passwordInput.invalid && passwordInput.touched"
+                    class="error-text">
+                    <span *ngIf="passwordInput.errors?.['required']">Password is
+                        required</span>
+                    <span *ngIf="passwordInput.errors?.['minlength']">Password
+                        must be at least 6 characters</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    [(ngModel)]="confirmPassword"
+                    required
+                    #confirmPasswordInput="ngModel"
+                    [class.error]="confirmPasswordInput.invalid && confirmPasswordInput.touched || (password !== confirmPassword && confirmPassword)">
+                <div
+                    *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched"
+                    class="error-text">
+                    Confirm password is required
+                </div>
+                <div
+                    *ngIf="password !== confirmPassword && confirmPassword && !confirmPasswordInput.invalid"
+                    class="error-text">
+                    Passwords do not match
+                </div>
+            </div>
+
+            <div *ngIf="errorMessage" class="error-message">
+                {{ errorMessage }}
+            </div>
+
+            <div *ngIf="successMessage" class="success-message">
+                {{ successMessage }} Redirecting to login...
+            </div>
+
+            <button
+                type="submit"
+                class="register-btn"
+                [disabled]="isLoading">
+                <span *ngIf="isLoading">Registering...</span>
+                <span *ngIf="!isLoading">Register</span>
+            </button>
+        </form>
+
+        <div class="login-link">
+            <p>Already have an account?
+                <a href="#" target="_blank" (click)="goToLogin()">Login here</a>
+            </p>
+        </div>
+    </div>
+</div>
